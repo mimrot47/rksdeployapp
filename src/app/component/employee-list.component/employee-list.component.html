@@ -1,0 +1,45 @@
+<div class="container">
+  <h2>Employee List</h2>
+
+  @if (isLoading()) {
+    <p>Loading...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (!isLoading() && employees().length > 0) {
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (emp of employees(); track emp.id) {
+          <tr>
+            <td>{{ emp.id }}</td>
+            <td>{{ emp.name }}</td>
+            <td>
+              <button (click)="fetchEmployeeById(emp.id!)">View Details</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else if (!isLoading() && employees().length === 0) {
+    <p>No employees found.</p>
+  }
+
+  <!-- Display details when selected -->
+  @if (selectedEmployee(); as emp) {
+    <div style="margin-top: 20px;">
+      <h3>Selected Employee Details</h3>
+      <p><strong>ID:</strong> {{ emp.id }}</p>
+      <p><strong>Name:</strong> {{ emp.name }}</p>
+    </div>
+  }
+</div>
